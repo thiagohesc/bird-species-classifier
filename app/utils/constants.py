@@ -9,7 +9,7 @@ class EnvVars:
     if AUTH_CODE is None:
         raise EnvironmentError("A variável de ambiente AUTH_CODE não está definida.")
 
-    TRAIN = False
+    TRAIN = True
 
 
 class Urls:

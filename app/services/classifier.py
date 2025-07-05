@@ -53,13 +53,13 @@ class Classifier:
             [
                 layers.RandomFlip("horizontal"),
                 layers.RandomRotation(0.1),
-                #layers.RandomZoom(0.2),
-                #layers.RandomContrast(0.2),  # novo
-                #layers.RandomBrightness(0.2),  # novo
+                layers.RandomZoom(0.2),
+                layers.RandomContrast(0.2),  # novo
+                layers.RandomBrightness(0.2),  # novo
             ]
         )
 
-        conv_base = keras.applications.EfficientNetV2B1(
+        conv_base = keras.applications.EfficientNetV2B2(
             weights="imagenet", include_top=False, input_shape=(224, 224, 3)
         )
         conv_base.trainable = False
@@ -201,12 +201,12 @@ def train_model(train: bool = False):
         classifier = Classifier(
             data_dir=PathFiles.DATA,
             img_size=(224, 224),
-            batch_size=16,
+            batch_size=8,
             num_classes=200,
             model_path=PathFiles.MODEL,
         )
 
-        classifier.train(epochs=50, epochs_fine=20)
+        classifier.train(epochs=50, epochs_fine=10)
         classifier.evaluate()
         classifier.plot_history(save_path=PathFiles.RESULTS)
 

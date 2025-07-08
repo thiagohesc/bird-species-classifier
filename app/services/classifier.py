@@ -59,7 +59,7 @@ class Classifier:
             ]
         )
 
-        conv_base = keras.applications.EfficientNetV2B2(
+        conv_base = keras.applications.EfficientNetB7(
             weights="imagenet", include_top=False, input_shape=(224, 224, 3)
         )
         conv_base.trainable = False

@@ -1,6 +1,7 @@
 import numpy as np
 import io
 import pandas as pd
+import re
 
 from PIL import Image
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query
@@ -101,11 +102,13 @@ async def predict_image(
         predicted_class = int(np.argmax(predictions[0]))
         confidence = float(np.max(predictions[0]))
         predicted_label = CLASS_NAMES[predicted_class]
+        class_name = re.sub(r"^\d+\.", "", predicted_label)
+        class_name = class_name.replace("_", " ")
 
         return JSONResponse(
             content={
-                "class_id": predicted_class,
-                "class_name": predicted_label,
+                "class_id": predicted_class + 1,
+                "class_name": class_name,
                 "confidence": round(confidence, 4),
             }
         )
